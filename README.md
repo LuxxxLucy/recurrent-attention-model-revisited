@@ -1,6 +1,6 @@
-# Recurrent Visual Attention Revisited from an active information sampling perspective
+# Revisit Recurrent Attention Model from an Active Sampling Perspective
 
-This reposity contains the code and some implementation detail of the NeurIPS workshop paper < [Recurrent Visual Attention Revisited from an active information sampling perspective, Jialin Lu](https://openreview.net/forum?id=HJlVEQt8Lr) >.
+This reposity contains the code and some implementation detail of the NeurIPS workshop paper < [Revisit Recurrent Attention Model from an Active Sampling Perspective, Jialin Lu](https://openreview.net/forum?id=HJlVEQt8Lr) >.
 
 ## Model Description
 
@@ -14,6 +14,7 @@ In this paper, we (I) identify three weakness and propose to add two new objecti
 In (Gottlieb, 2018), the authors reviewed recent studies on attentional learning, and highlighted the role of active sampling through visual attention and gaze for decision making. Particularly, Gottlieb (2018) suggested three types of motives for implementing active sampling policies,
 
 > “ One motive relates simply to the extent to which information is expected to increase the operant rewards of a task; a second motivation is related to reducing the uncertainty of belief states; and yet a third motive may be related to the intrinsic utility or dis-utility of anticipating a positive or a negative outcome (savoring or dread). ”
+ --- Jacqueline Gottlieb. 2018. Understanding active sampling strategies: Empirical approaches and implications for attention and decision research. Cortex 102 (2018), 150–160.
 
 In the context of RAM for classification, only the first motive is implemented by RAM as the reward of correct classification.
 I model the second motive reducing of uncertainty by introducing an auxliary error network to predict the "error", and minimize this error.
@@ -29,7 +30,7 @@ But in fact the implementation of @kevinzakka cannot really reproduce the origin
 
 One specific part of RAM is to stop certain gradient flows of the location network, as in this [thread](https://github.com/kevinzakka/recurrent-visual-attention/issues/12).
 
-Another thing is the standard deviation of the location network, for 28*28 mnist with a 8*8 glimpse, a std of 0.10 gives a decent performance.
+Another thing is the standard deviation of the location network, for 28\*28 mnist with a 8\*8 glimpse, a std of 0.10 gives a decent performance.
 
 In this version, the original RAM can reach 98.3% in 100 epochs (with no monte carlo sampling to improve test-time performance, if used 99.2%) and of course, compared with other implementation on github, 100 epoch is really too small. If you wish to reproduce, train longer, and replace the epoch-learning-rate-decay (\*0.95 per epoch) to the ReduceLROnPlateau scheduler.
 
@@ -39,7 +40,7 @@ On the error network (which we get our self-uncertainty), the training of the lo
 
 To control the factors for different versions, I use the learning rate decay of 0.95 per epoch. But in fact if you are not experimenting different versions (of objective function), it then makes more sense to use the `ReduceLROnPlateau` learning rate scheduler, which would give a better result. (see line 125-134 in `trainer.py`, also `scheduler.step()` also needs to change)
 
-For the translated 60*60 MNIST, as the image becomes larger, we set the std smaller, we set to 0.03.
+For the translated 60\*60 MNIST, as the image becomes larger, we set the std smaller, we set to 0.03.
 
 The new-introduced new parameters are in the first lines in `config.py`
 
